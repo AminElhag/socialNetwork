@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SocialNetwork" >
+        android:theme="@style/Theme.SocialNetwork"
+        android:name=".presentation.app.App">
         <activity android:name=".presentation.post.PostActivity" >
         </activity>
         <activity android:name=".presentation.login.LoginActivity" >

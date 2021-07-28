@@ -5,9 +5,8 @@ import dagger.Provides
 import retrofit2.Retrofit
 import sd.lemon.socialnetwork.data.posts.PostsApiImpl
 import sd.lemon.socialnetwork.data.posts.PostsRetrofitService
-import sd.lemon.socialnetwork.data.posts.RetrofitClient
 import sd.lemon.socialnetwork.domain.posts.*
-import sd.lemon.socialnetwork.presentation.main.di.PerActivity
+import sd.lemon.socialnetwork.presentation.app.di.PerActivity
 import sd.lemon.socialnetwork.presentation.post.PostPresenter
 import sd.lemon.socialnetwork.presentation.post.PostView
 
@@ -15,33 +14,28 @@ import sd.lemon.socialnetwork.presentation.post.PostView
 class PostModule(private val view: PostView) {
 
     @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
-    fun provideRetrofit(): Retrofit =
-        RetrofitClient.retrofit
-
-    @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
+    @PerActivity
     fun providesPostRetrofitService(retrofit: Retrofit): PostsRetrofitService =
         retrofit.create(PostsRetrofitService::class.java)
 
     @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
+    @PerActivity
     fun providePostRepository(postsRetrofitService: PostsRetrofitService): PostsRepository =
         PostsApiImpl(postsRetrofitService)
 
     @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
+    @PerActivity
     fun provideGetCommentUseCase(postsRepository: PostsRepository): GetCommentUseCase =
         GetCommentUseCase(postsRepository)
 
     @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
+    @PerActivity
     fun provideGetOnePostUseCase(postsRepository: PostsRepository): GetOnePostUseCase =
         GetOnePostUseCase(postsRepository)
 
 
     @Provides
-    @sd.lemon.socialnetwork.presentation.post.di.PerActivity
+    @PerActivity
     fun providePostPresenter(
         getOnePostUseCase: GetOnePostUseCase,
         getCommentUseCase: GetCommentUseCase,

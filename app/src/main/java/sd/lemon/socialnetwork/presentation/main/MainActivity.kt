@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
 import sd.lemon.socialnetwork.R
 import sd.lemon.socialnetwork.domain.posts.models.Post
+import sd.lemon.socialnetwork.presentation.app.App
 import sd.lemon.socialnetwork.presentation.main.di.DaggerMainComponent
 import sd.lemon.socialnetwork.presentation.main.di.MainModule
 import sd.lemon.socialnetwork.presentation.post.PostActivity
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity(), MainView {
         DaggerMainComponent
             .builder()
             .mainModule(MainModule(this))
+            .appComponent((application as App).appComponent)
             .build().inject(this)
 
         presenter.getPost()
@@ -73,7 +75,16 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun getPost(it: List<Post>) {
-        itemAdapter = PostAdapter(it, this)
+        itemAdapter = PostAdapter(it)
+        itemAdapter.setOnActionsListener(object : PostAdapter.OnActionsListener {
+            override fun onPostClicked(post: Post) {
+                startActivity(Intent(this@MainActivity, PostActivity::class.java).apply {
+                    putExtra("TheSelectPost", post.id)
+                })
+            }
+
+        })
+
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = itemAdapter
     }
@@ -100,9 +111,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onCellClickListener(post: Post) {
-        startActivity(Intent(this, PostActivity::class.java).apply {
-            putExtra("TheSelectPost", post.id)
-        })
+
     }
 
 }

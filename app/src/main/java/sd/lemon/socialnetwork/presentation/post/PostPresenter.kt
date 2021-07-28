@@ -21,7 +21,7 @@ class PostPresenter(
     }
 
     fun showComments() {
-        val subscribe = getCommentUseCase.execute(postId!!).subscribeOn(Schedulers.io())
+        val subscribe = getCommentUseCase.execute(GetCommentUseCase.Parameters(postId!!)).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view.showComments(it!!)
@@ -37,7 +37,7 @@ class PostPresenter(
 
     fun showPost() {
         postId?.let {
-            val subscribe = getOnePostUseCase.execute(it).subscribeOn(Schedulers.io())
+            val subscribe = getOnePostUseCase.execute(GetOnePostUseCase.Parameters(it)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ post ->
                     view.showPost(post)
                 }, { throwable ->

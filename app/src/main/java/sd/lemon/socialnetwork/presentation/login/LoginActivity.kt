@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import sd.lemon.socialnetwork.R
+import sd.lemon.socialnetwork.presentation.app.App
 import sd.lemon.socialnetwork.presentation.main.MainActivity
 import sd.lemon.socialnetwork.presentation.login.di.DaggerLoginComponent
 import sd.lemon.socialnetwork.presentation.login.di.LoginModule
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
         //TODO build
         DaggerLoginComponent.builder()
             .loginModule(LoginModule(this))
+            .appComponent((application as App).appComponent)
             .build()
             .inject(this)
 

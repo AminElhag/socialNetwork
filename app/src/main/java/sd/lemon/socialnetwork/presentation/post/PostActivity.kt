@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import sd.lemon.socialnetwork.R
 import sd.lemon.socialnetwork.domain.posts.models.Post
+import sd.lemon.socialnetwork.presentation.app.App
 import sd.lemon.socialnetwork.presentation.main.PostAdapter
 import sd.lemon.socialnetwork.presentation.post.di.DaggerPostComponent
 import sd.lemon.socialnetwork.presentation.post.di.PostModule
@@ -35,6 +36,7 @@ class PostActivity : AppCompatActivity(), PostView {
 
         DaggerPostComponent
             .builder()
+            .appComponent((application as App).appComponent)
             .postModule(PostModule(this))
             .build().inject(this)
 

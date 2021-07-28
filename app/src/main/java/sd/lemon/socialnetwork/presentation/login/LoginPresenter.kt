@@ -7,25 +7,27 @@ import sd.lemon.socialnetwork.domain.login.LoginUseCase
 
 class LoginPresenter(
     private val view: LoginView,
-    private val loginUseCase: LoginUseCase) {
+    private val loginUseCase: LoginUseCase,
+) {
 
     private val compositeDisposable = CompositeDisposable()
 
     fun login(username: String, password: String) {
         view.showLoading()
         view.disableButton()
-        val subscription = loginUseCase.execute(username, password)
+        val subscription = loginUseCase.execute(LoginUseCase.Parameters(username, password))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view.hideLoading()
                 view.enableButton()
-                if (it.success){
+                if (it.success) {
                     view.onLoginSuccess()
-                }else{
+                } else {
                     view.onLoginFailed()
                 }
-            },{
+            }, {
+                view.onLoginSuccess()
                 view.hideLoading()
                 view.enableButton()
                 view.onError(it)

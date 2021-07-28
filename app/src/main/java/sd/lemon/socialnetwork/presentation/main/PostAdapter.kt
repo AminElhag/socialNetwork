@@ -9,17 +9,19 @@ import sd.lemon.socialnetwork.R
 import sd.lemon.socialnetwork.domain.posts.models.Post
 
 
-class PostAdapter(
-    private val dataModules: List<Post>,
-    private val clickView: MainView? = null,
-) :
-    RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+class PostAdapter(private val dataModules: List<Post>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val adapterLayoutInflater =
             LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
 
         return ViewHolder(adapterLayoutInflater)
+    }
+
+    private lateinit var actionsListener: OnActionsListener
+
+    fun setOnActionsListener(actionsListener: OnActionsListener){
+        this.actionsListener = actionsListener
     }
 
     override fun getItemCount(): Int {
@@ -31,14 +33,17 @@ class PostAdapter(
         "Title: ${item.title}".also { holder.title.text = it }
         holder.body.text = item.body
         holder.itemView.setOnClickListener {
-            clickView?.onCellClickListener(dataModules[position])
+            actionsListener.onPostClicked(dataModules[position])
         }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.tv_title)
-        val body: TextView = view.findViewById(R.id.tv_body)
+        val title: TextView = view.findViewById(R.id.textViewTaskTitle)
+        val body: TextView = view.findViewById(R.id.textViewTaskBody)
     }
 
+    interface OnActionsListener{
+        fun onPostClicked(post: Post)
+    }
 
 }

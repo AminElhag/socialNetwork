@@ -5,9 +5,9 @@ import io.reactivex.Observable
 import sd.lemon.socialnetwork.domain.posts.models.Post
 
 interface PostsRepository {
-    fun getPosts(): Observable<List<Post>>
-    fun getOnePost(id: Int): Observable<Post>
-    fun getComment(id: Int): Observable<List<Post>>
-    fun cratePost(post: Post): Observable<Post>
+    fun getPosts(parameters: GetPostsUseCase.Parameters): Observable<List<Post>>
+    fun getOnePost(parameters: GetOnePostUseCase.Parameters): Observable<Post>
+    fun getComment(parameters: GetCommentUseCase.Parameters): Observable<List<Post>>
+    fun cratePost(parameters: CreatePostUseCase.Parameters): Observable<Post>
     fun deletePost(id: Int): Completable
 }

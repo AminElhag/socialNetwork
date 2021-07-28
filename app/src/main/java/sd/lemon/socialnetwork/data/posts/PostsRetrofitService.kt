@@ -3,6 +3,7 @@ package sd.lemon.socialnetwork.data.posts
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
+import sd.lemon.socialnetwork.domain.posts.CreatePostUseCase
 import sd.lemon.socialnetwork.domain.posts.models.Post
 
 interface PostsRetrofitService {
@@ -16,9 +17,9 @@ interface PostsRetrofitService {
     fun getCommentsByPostId(@Path("id") id: Int): Observable<List<Post>>
 
     @POST("posts")
-    fun crateNewPost(@Body post: Post): Observable<Post>
+    fun crateNewPost(@Body parameters: CreatePostUseCase.Parameters): Observable<Post>
 
     @DELETE("posts/{id}")
-    fun deletePost(@Path("id")id:Int):Completable
+    fun deletePost(@Path("id") id: Int): Completable
 
 }
